@@ -1,5 +1,6 @@
 ## Aura querys
- - conexão com o banco de dados interno da aurora
+ - Fiz o deploy de um banco de dados da aurora na nuvem (Render)
+   e essa aplicação é para facilitar a conexão com ele.
 
 ## instalação
 ```bash
