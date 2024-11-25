@@ -32,7 +32,7 @@ function QueryPage() {
 
     const handleLogout = () => {
         localStorage.removeItem("authToken");
-        navigate("/login"); // Redireciona para a página de login
+        navigate("/login");
     };
 
     useEffect(() => {

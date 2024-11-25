@@ -41,9 +41,9 @@ def execute_query(request: QueryRequest):
                 if cursor.description:
                     results = cursor.fetchall()
                 else:
-                    results = {"message": "Query executed successfully"}
+                    results = {"message": "Query executada com sucesso!"}
                 conn.commit()
                 return {"results": results}
     except Exception as e:
-        logger.error(f"Error executing query: {e}")
+        logger.error(f"Erro ao executar a query {e}")
         raise HTTPException(status_code=400, detail=str(e))
