@@ -37,6 +37,6 @@ my_own_libc/
 │       └── app.js   # "main"
 ├── run.sh           # script para iniciar o backend e o frontend
 ├── .env             # crie um .env e adicione as variaveis de conexão com o BD
-└── README.md        # Docs
+└── README.md        # Docs  
 
 ```
