@@ -34,7 +34,7 @@ my_own_libc/
 ├── frontend/             
 │   └── srcs/
 │       ├── pages/   # paginas da aplicação (ex. loginPage, queryPage)
-│       └── app.js   
+│       └── app.js   # "main"
 ├── run.sh           # script para iniciar o backend e o frontend
 ├── .env             # crie um .env e adicione as variaveis de conexão com o BD
 └── README.md        # Docs
