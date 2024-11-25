@@ -28,7 +28,7 @@ cd frontend && yarn install && cd ..
 ```bash
 my_own_libc/
 ├── backend/         # Arquivos de backend 
-│   ├── main.py      # API
+│   ├── main.py      # API endpoints(/query, /auth)
 │   └── database.py  # conexão com o banco de dados
 │
 ├── frontend/             
