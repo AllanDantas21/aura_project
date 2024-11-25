@@ -13,7 +13,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # dependencias frontend
-cd frontend && yarn install
+cd frontend && yarn install && cd ..
 ```
 ## iniciar o projeto
 ```bash
