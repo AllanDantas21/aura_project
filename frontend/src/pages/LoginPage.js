@@ -16,11 +16,24 @@ function LoginPage() {
             return;
         }
         setLoading(true);
-        if (username === "admin" && password === "123") {
-            localStorage.setItem("authToken", "authenticated");
-            navigate("/query");
-        } else {
-            setError("Credenciais inválidas!");
+        try {
+            const response = await fetch("http://127.0.0.1:8000/auth", {
+                method: "POST",
+                body: JSON.stringify({ nome: username, senha: password }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                
+            });
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem("authToken", data.token);
+                navigate("/query");
+            } else {
+                setError(data.message || "Credenciais inválidas!");
+            }
+        } catch (error) {
+            setError("Erro ao conectar com o servidor!");
         }
         setLoading(false);
     };

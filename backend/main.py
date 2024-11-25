@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 from database import get_db_connection
 from fastapi.middleware.cors import CORSMiddleware
 import logging
+import hashlib
 
 app = FastAPI()
 
@@ -20,19 +21,23 @@ logger = logging.getLogger(__name__)
 class QueryRequest(BaseModel):
     query: str
 
+class AuthRequest(BaseModel):
+    nome: str
+    senha: str
+
 @app.post("/query")
 def execute_query(request: QueryRequest):
     """
-    Execute an SQL query based on the provided QueryRequest object.
+    Executa uma consulta SQL com base no objeto QueryRequest fornecido.
 
     Args:
-        request (QueryRequest): Object containing the SQL query to be executed.
+        request (QueryRequest): Objeto contendo a consulta SQL a ser executada.
 
     Returns:
-        dict: A dictionary containing the query results or a success message.
+        dict: Um dicionário contendo os resultados da consulta ou uma mensagem de sucesso.
 
     Raises:
-        HTTPException: Exception raised in case of query execution error, with status code 400 and error details.
+        HTTPException: Exceção levantada em caso de erro na execução da consulta, com código de status 400 e detalhes do erro.
     """
     try:
         with get_db_connection() as conn:
@@ -47,3 +52,31 @@ def execute_query(request: QueryRequest):
     except Exception as e:
         logger.error(f"Erro ao executar a query {e}")
         raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/auth")
+def authenticate_user(request: AuthRequest):
+"""
+Autentica um usuário com base nas credenciais fornecidas.
+
+Args:
+    request (AuthRequest): Objeto contendo o nome e a senha do usuário.
+
+Returns:
+    dict: Um dicionário contendo o token de autenticação se as credenciais forem válidas.
+
+Raises:
+    HTTPException: Se o nome ou a senha estiverem incorretos, retorna uma exceção HTTP 401.
+    HTTPException: Se ocorrer um erro interno do servidor, retorna uma exceção HTTP 500.
+"""
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("SELECT senha FROM usuarios WHERE nome = %s", (request.nome,))
+                user = cursor.fetchone()
+                if user and request.senha == user["senha"]:
+                    return {"token": "authToken"}
+                else:
+                    raise HTTPException(status_code=401, detail="Nome ou senha incorretos")
+    except Exception as e:
+        logger.error(f"Erro ao autenticar o usuário {e}")
+        raise HTTPException(status_code=500, detail="Erro interno do servidor")
