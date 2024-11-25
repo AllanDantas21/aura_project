@@ -22,3 +22,21 @@ cd frontend && yarn install && cd ..
 ```
 
 ### Após iniciar o projeto entre em: http://localhost:3000
+
+## Estrutura do projeto
+
+```bash
+my_own_libc/
+├── backend/         # Arquivos de backend 
+│   ├── main.py      #  API
+│   └── database.py  # conexão com o banco de dados
+│
+├── frontend/             
+│   └── srcs/
+│       ├── pages/   # paginas da aplicação (ex. loginPage, queryPage)
+│       └── app.js   
+├── run.sh           # script para iniciar o backend e o frontend
+├── .env             # crie um .env e adicione as variaveis de conexão com o BD
+└── README.md        # Docs
+
+```
