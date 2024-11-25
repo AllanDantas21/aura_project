@@ -17,9 +17,9 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "client": "react-scripts start",
-    "server": "cd ../backend && uvicorn main:app --reload --log-level critical",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "frontend": "react-scripts start --log-level critical",
+    "backend": "cd ../backend && uvicorn main:app --reload",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
