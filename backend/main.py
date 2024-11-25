@@ -7,10 +7,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # URL do seu frontend
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
-    allow_methods=["*"],  # Permitir todos os métodos HTTP
-    allow_headers=["*"],  # Permitir todos os cabeçalhos
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 class QueryRequest(BaseModel):
