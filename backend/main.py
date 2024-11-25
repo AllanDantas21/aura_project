@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from database import get_db_connection
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -21,7 +22,7 @@ def execute_query(request: QueryRequest):
     cursor = conn.cursor()
     try:
         cursor.execute(request.query)
-        if cursor.description:  # Verifica se a consulta retorna algo (ex: SELECT)
+        if cursor.description:
             results = cursor.fetchall()
         else:
             results = {"message": "Query executada com sucesso"}
