@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from database import get_db_connection
 from fastapi.middleware.cors import CORSMiddleware
+import logging
 
 app = FastAPI()
 
@@ -13,35 +14,36 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 class QueryRequest(BaseModel):
     query: str
 
 @app.post("/query")
 def execute_query(request: QueryRequest):
     """
-    Executa uma consulta SQL com base no objeto QueryRequest fornecido.
+    Execute an SQL query based on the provided QueryRequest object.
 
     Args:
-        request (QueryRequest): Objeto contendo a consulta SQL a ser executada.
+        request (QueryRequest): Object containing the SQL query to be executed.
 
     Returns:
-        dict: Um dicionário contendo os resultados da consulta ou uma mensagem de sucesso.
+        dict: A dictionary containing the query results or a success message.
 
     Raises:
-        HTTPException: Exceção levantada em caso de erro na execução da consulta, com status code 400 e detalhe do erro.
+        HTTPException: Exception raised in case of query execution error, with status code 400 and error details.
     """
-    conn = get_db_connection()
-    cursor = conn.cursor()
     try:
-        cursor.execute(request.query)
-        if cursor.description:
-            results = cursor.fetchall()
-        else:
-            results = {"message": "Query executada com sucesso"}
-        conn.commit()
-        return {"results": results}
+        with get_db_connection() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(request.query)
+                if cursor.description:
+                    results = cursor.fetchall()
+                else:
+                    results = {"message": "Query executed successfully"}
+                conn.commit()
+                return {"results": results}
     except Exception as e:
-        conn.rollback()
+        logger.error(f"Error executing query: {e}")
         raise HTTPException(status_code=400, detail=str(e))
-    finally:
-        conn.close()

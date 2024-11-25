@@ -19,7 +19,7 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "client": "react-scripts start",
-    "server": "cd ../backend && uvicorn main:app --reload",
+    "server": "cd ../backend && uvicorn main:app --reload --log-level critical",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
