@@ -8,6 +8,10 @@ git clone https://github.com/AllanDantas21/aura_project.git && cd aura_project &
 ```
 ## baixar as dependencias
 ```sh
+# dependencias gerais
+node
+postgresql
+
 # dependencias backend
 python3 -m venv venv
 source venv/bin/activate
