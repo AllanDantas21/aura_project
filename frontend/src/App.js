@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 function App() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleQuerySubmit = async () => {
+    setLoading(true);
+    setError("");
+    setResults(null);
     try {
-      setError("");
       const response = await axios.post("http://127.0.0.1:8000/query", { query });
       setResults(response.data.results);
     } catch (err) {
       setError(err.response?.data?.detail || "Erro ao executar a consulta");
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      console.error("Query error:", error);
+    }
+  }, [error]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -33,8 +45,9 @@ function App() {
           <button
             onClick={handleQuerySubmit}
             className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={loading}
           >
-            Executar Consulta
+            {loading ? "Executando..." : "Executar Consulta"}
           </button>
         </div>
         <div className="mt-6">
@@ -51,5 +64,12 @@ function App() {
     </div>
   );
 }
+
+App.propTypes = {
+  query: PropTypes.string,
+  results: PropTypes.object,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
+};
 
 export default App;
