@@ -11,6 +11,7 @@ git clone https://github.com/AllanDantas21/aura_project.git && cd aura_project &
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+
 # dependencias frontend
 cd frontend && yarn install
 ```
