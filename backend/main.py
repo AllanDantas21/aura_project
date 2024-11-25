@@ -18,6 +18,18 @@ class QueryRequest(BaseModel):
 
 @app.post("/query")
 def execute_query(request: QueryRequest):
+    """
+    Executa uma consulta SQL com base no objeto QueryRequest fornecido.
+
+    Args:
+        request (QueryRequest): Objeto contendo a consulta SQL a ser executada.
+
+    Returns:
+        dict: Um dicionário contendo os resultados da consulta ou uma mensagem de sucesso.
+
+    Raises:
+        HTTPException: Exceção levantada em caso de erro na execução da consulta, com status code 400 e detalhe do erro.
+    """
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
