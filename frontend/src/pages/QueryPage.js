@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "axios";
 
 function QueryPage() {
@@ -7,14 +6,6 @@ function QueryPage() {
     const [results, setResults] = useState(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const authToken = localStorage.getItem("authToken");
-        if (!authToken) {
-            navigate("/login");
-        }
-    }, [navigate]);
 
     const handleQuerySubmit = async () => {
         setLoading(true);
@@ -30,27 +21,8 @@ function QueryPage() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("authToken");
-        navigate("/login");
-    };
-
-    useEffect(() => {
-        if (error) {
-            console.error("Query error:", error);
-        }
-    }, [error]);
-
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 relative">
-            <div className="absolute top-4 right-4">
-                <button
-                    onClick={handleLogout}
-                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-                >
-                    Logout
-                </button>
-            </div>
             <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl">
                 <h1 className="text-3xl font-semibold text-center text-blue-600 mb-6">
                     Aura Serverless - Query Executor

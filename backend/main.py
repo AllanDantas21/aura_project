@@ -55,25 +55,25 @@ def execute_query(request: QueryRequest):
 
 @app.post("/auth")
 def authenticate_user(request: AuthRequest):
-"""
-Autentica um usuário com base nas credenciais fornecidas.
+    """
+    Autentica um usuário com base nas credenciais fornecidas.
 
-Args:
-    request (AuthRequest): Objeto contendo o nome e a senha do usuário.
+    Args:
+        request (AuthRequest): Objeto contendo o nome e a senha do usuário.
 
-Returns:
-    dict: Um dicionário contendo o token de autenticação se as credenciais forem válidas.
+    Returns:
+        dict: Um dicionário contendo o token de autenticação se as credenciais forem válidas.
 
-Raises:
-    HTTPException: Se o nome ou a senha estiverem incorretos, retorna uma exceção HTTP 401.
-    HTTPException: Se ocorrer um erro interno do servidor, retorna uma exceção HTTP 500.
-"""
+    Raises:
+        HTTPException: Se o nome ou a senha estiverem incorretos, retorna uma exceção HTTP 401.
+        HTTPException: Se ocorrer um erro interno do servidor, retorna uma exceção HTTP 500.
+    """
     try:
         with get_db_connection() as conn:
             with conn.cursor() as cursor:
                 cursor.execute("SELECT senha FROM usuarios WHERE nome = %s", (request.nome,))
                 user = cursor.fetchone()
-                if user and request.senha == user["senha"]:
+                if user and hashlib.sha256(request.senha.encode()).hexdigest() == user["senha"]:
                     return {"token": "authToken"}
                 else:
                     raise HTTPException(status_code=401, detail="Nome ou senha incorretos")
