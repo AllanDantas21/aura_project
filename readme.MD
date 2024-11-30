@@ -2,20 +2,27 @@
  - Fiz o deploy de um banco de dados da aurora na nuvem (Render)
    e essa aplicação é para facilitar a conexão com ele.
 
-## instalação
+## Instalação
 ```bash
 git clone https://github.com/AllanDantas21/aura_project.git && cd aura_project && chmod 777 ./run.sh
 ```
-## baixar as dependencias
+## Baixar as dependencias
 ```sh
-
 # dependencias
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cd frontend && yarn install && cd ..
-
 ```
+
+## Crie um .env com essas variaveis
+```bash
+DB_HOST=host
+DB_NAME=name
+DB_USER=user
+DB_PASSWORD=password 
+```
+
 ## iniciar o projeto
 ```bash
 ./run.sh
