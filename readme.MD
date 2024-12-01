@@ -3,7 +3,7 @@
 
 ## Install
 ```bash
-git clone https://github.com/AllanDantas21/aura_project.git && cd aura_project && chmod 777 ./run.sh
+git clone https://github.com/AllanDantas21/aura_project.git && cd aura_project && chmod 777 ./run.sh ./setup.sh
 ```
 ## Download dependencies
 ```sh
